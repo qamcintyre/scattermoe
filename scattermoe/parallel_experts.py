@@ -53,7 +53,8 @@ class ParallelLinear(torch.autograd.Function):
         with torch.device(grad_out.device):
             if gates is not None:
                 # calculate gates gradient
-                d_gates = torch.bmm(output_expanded, grad_out[:, :, None]).squeeze(-1)
+                # d_gates = torch.bmm(output_expanded, grad_out[:, :, None]).squeeze(-1)
+                d_gates = torch.bmm(output_expanded.to(grad_out.dtype), grad_out[:, :, None]).squeeze(-1)
                 gates_flat = gates.flatten()
                 gate_fan = gates.size(1)
                 # print("expanded and grouping")
